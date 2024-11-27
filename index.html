@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Boombox</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/franken-ui/dist/css/core.min.css" />
+
+  <script>
+    const htmlElement = document.documentElement;
+
+    if (
+      localStorage.getItem("mode") === "dark" ||
+      (!("mode" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      htmlElement.classList.add("dark");
+    } else {
+      htmlElement.classList.remove("dark");
+    }
+
+    htmlElement.classList.add(
+      localStorage.getItem("theme") || "uk-theme-zinc"
+    );
+  </script>
+
+  <script type="module" src="https://unpkg.com/franken-ui/dist/js/core.iife.js"></script>
+  <script type="module" src="https://unpkg.com/franken-ui/dist/js/icon.iife.js"></script>
+
+  <script src="./js/samplebank.js"></script>
+  <script src="./js/sequencer.js"></script>
+  <script src="./js/presets.js"></script>
+  <script src="./js/main.js"></script>
+
+  <style>
+    #sequencer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #sequencer-grid {
+      display: grid;
+      grid-template-columns: 100px repeat(32, 30px);
+      gap: 5px;
+    }
+
+    #sequencer-grid .label {
+      grid-column: 1;
+      /* Place labels in the first column */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eee;
+      /* Optional styling */
+      border: 1px solid #ccc;
+      /* Optional styling */
+    }
+
+    .sequencer-cell {
+      width: 30px;
+      height: 30px;
+      background: lightgray;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    .sequencer-cell-lb {
+      width: 30px;
+      height: 30px;
+      background: lightgray;
+      border: 1px solid #ccc;
+      align-items: center;
+      justify-content: center;
+      display: flex; /* Enable flexbox */
+  justify-content: center; /* Horizontally center */
+  align-items: center; 
+ 
+    }
+
+    .sequencer-cell.active {
+      background: limegreen;
+    }
+
+    .sequencer-row-label {
+      display: inline-block;
+      width: 100px;
+      text-align: right;
+      padding-right: 10px;
+    }
+
+    .sequencer-cell.current-step {
+      outline: 2px solid red;
+    }
+  </style>
+
+
+</head>
+
+<body class="bg-background text-foreground">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-flex uk-flex-column uk-flex-middle uk-flex-center">
+      <h1 class="uk-heading-small uk-margin">Boombox editor
+
+        <div class="uk-inline">
+          <button class="uk-icon-button uk-icon-button-small uk-icon-button-outline">
+            <uk-icon icon="palette" uk-cloak></uk-icon>
+          </button>
+          <div class="uk-card uk-card-body uk-card-default uk-drop uk-width-large"
+            uk-drop="mode: click; offset: 8; pos: bottom-center">
+            <div class="uk-card-title uk-margin-medium-bottom">Customize</div>
+            <uk-theme-switcher></uk-theme-switcher>
+          </div>
+        </div>
+      </h1>
+    </div>
+
+    <div class="uk-flex">
+      <div class="uk-card uk-card-body uk-card-default">
+        <h3 class="uk-card-title">Pattern select</h3>
+        <div class="uk-margin-small-top"></div>
+        <ul id='preset-list' class="uk-list uk-list-striped">
+
+        </ul>
+      </div>
+      <div class="uk-card uk-card-body uk-card-default">
+        <h3 class="uk-card-title">Pattern debug</h3>
+        <div id="pattern"></div>
+      </div>
+    </div>
+
+    <div class="uk-margin-small-top"></div>
+
+    <div class="uk-card uk-card-body uk-card-default">
+      <h3 class="uk-card-title">Pattern editor</h3>
+      <div id="sequencer-container">
+        <div id="sequencer-grid"></div>
+        <div class="uk-flex">
+          <a onclick='sequencer.start();' href="#" class="uk-button uk-button-primary">Play</a>
+          <a onclick='sequencer.stop();' href="#" class="uk-button uk-button-primary">Stop</a>
+        </div>
+        <fieldset class="uk-fieldset">
+          <div class="uk-margin">
+          <label class="uk-form-label" for="tempo-input">Tempo:</label>
+          <div class="uk-form-controls">
+          <input  class="uk-input" id="tempo-input" type="number" value="120" min="60" max="240"
+            onchange="sequencer.setTempo(this.value)" />
+          </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
