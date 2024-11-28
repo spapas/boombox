@@ -50,10 +50,13 @@ sampleBank.loadSamples(
 sequencer.on("sequencer:setpattern", (pattern) => {
   console.log("Pattern set", pattern);
   // set pattern element with pattern
-  document.getElementById("pattern").innerHTML = `<pre>${JSON.stringify(pattern, null, 2)}</pre>`;
+  document.getElementById("pattern").innerHTML = JSON.stringify(pattern, null, 2);
 });
 
-
+const editPattern = (pattern) => {
+  sequencer.setPattern(pattern);
+  setPatternGrid(pattern);
+}
 
 
 document.addEventListener("DOMContentLoaded", function (event) {

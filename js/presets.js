@@ -127,6 +127,7 @@ const loadPreset = (preset) => {
     const key = Object.keys(preset)[0];
     sequencer.setPattern(preset[key]);
     setPatternGrid(preset[key]);
+    document.getElementById("pattern").innerHTML = JSON.stringify(preset[key], null, 2);
 }
 
 
